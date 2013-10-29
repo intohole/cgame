@@ -39,9 +39,9 @@ unsigned char path[N][N];
 */
 typedef struct WAY
 {
-int locate[STACKMAX];
- 
-int pstack;
+  int locate[STACKMAX];
+  
+  int pstack;
 }step;
 void initstack(step *ps);
 
@@ -63,69 +63,69 @@ void drawpeople(int row,int line,int color);
 int computermove(int row,int line,step *ps);
 int main()
 {
-step ps;
- int key;
- int row=1,line=1;
- init(WHITE);
- createmap(&ps);
+  step ps;
+  int key;
+  int row=1,line=1;
+  init(WHITE);
+  createmap(&ps);
 
- drawmap(BLUE);
- drawpeople(row,line,RED);
- while(1)
- {
-
-
-key=bioskey(0);
-switch(key)
-{
- case UP:if(path[row-1][line]==0)
-            {
-            drawpeople(row,line,WHITE);
-            row--;
-            drawpeople(row,line,RED);
-
-            }break;
- case DOWN:if(path[row+1][line]==0)
-            {
-            drawpeople(row,line,WHITE);
-            row++;
-            drawpeople(row,line,RED);
-
-            }break;
-case RIGHT:if(path[row][line+1]==0)
-            {
-            drawpeople(row,line,WHITE);
-            line++;
-            drawpeople(row,line,RED);
-
-            }break;
- case LEFT:if(path[row][line-1]==0)
-            {
-            drawpeople(row,line,WHITE);
-            line--;
-            drawpeople(row,line,RED);
-
-            }break;
- case ESC:closegraph();exit(0); break;
- case BS: computermove(row,line,&ps);
- del_23();
- getch();
- cleardevice();
- drawmap(BLUE);
- drawpeople(row,line,RED);
- default :break;
+  drawmap(BLUE);
+  drawpeople(row,line,RED);
+  while(1)
+  {
 
 
-}
-if(line==(N-2)&&row==(N-2))
-{
+    key=bioskey(0);
+    switch(key)
+    {
+     case UP:if(path[row-1][line]==0)
+     {
+      drawpeople(row,line,WHITE);
+      row--;
+      drawpeople(row,line,RED);
 
-closegraph();
-printf("\n\n\n\n\t\t\t\tGood Job");
-sleep(5);
-break;
+    }break;
+    case DOWN:if(path[row+1][line]==0)
+    {
+      drawpeople(row,line,WHITE);
+      row++;
+      drawpeople(row,line,RED);
 
-}
+    }break;
+    case RIGHT:if(path[row][line+1]==0)
+    {
+      drawpeople(row,line,WHITE);
+      line++;
+      drawpeople(row,line,RED);
+
+    }break;
+    case LEFT:if(path[row][line-1]==0)
+    {
+      drawpeople(row,line,WHITE);
+      line--;
+      drawpeople(row,line,RED);
+
+    }break;
+    case ESC:closegraph();exit(0); break;
+    case BS: computermove(row,line,&ps);
+    del_23();
+    getch();
+    cleardevice();
+    drawmap(BLUE);
+    drawpeople(row,line,RED);
+    default :break;
+
+
+  }
+  if(line==(N-2)&&row==(N-2))
+  {
+
+    closegraph();
+    printf("\n\n\n\n\t\t\t\tGood Job");
+    sleep(5);
+    break;
+
+  }
 
 }
 return 1;
@@ -133,40 +133,40 @@ return 1;
 
 void initstack(step *ps)
 {
-    ps->pstack=-1;
+  ps->pstack=-1;
 }
 int push(step *ps,int lc)
 {
-if (ps->pstack<STACKMAX) {
+  if (ps->pstack<STACKMAX) {
    
     ps->locate[++ps->pstack]=lc;
     
-      return 1;
-}
-else
-{
+    return 1;
+  }
+  else
+  {
 
-return -1;
+    return -1;
 
-}
+  }
 
 }
 
 
 int pop(step *ps)
 {
-    int re;
-if (ps->pstack>=0) {
+  int re;
+  if (ps->pstack>=0) {
     re=ps->locate[ps->pstack--];
-        
+    
     return re;
-}
-else
-{
+  }
+  else
+  {
 
-return -1;
+    return -1;
 
-}
+  }
 
 
 
@@ -175,16 +175,16 @@ return -1;
 
 int mix(int row,int line)
 {
-    return row+line*1000;
+  return row+line*1000;
 }
 
 
 int dv(int ans,int *row,int *line)
 {
-    
-    *row=ans%1000;
-    *line=ans/1000;
-    return 0;
+  
+  *row=ans%1000;
+  *line=ans/1000;
+  return 0;
 }
 
 
@@ -192,82 +192,82 @@ int dv(int ans,int *row,int *line)
 int move(step *ps)
 {
 
-int row=1;
-int line=1;
+  int row=1;
+  int line=1;
 
 
-while (row!=(N-2)||line!=(N-2)) {
+  while (row!=(N-2)||line!=(N-2)) {
 
-if (path[row][line+1]==0) {
-   
-        push(ps,mix(row,line));
-        
-        line++;
-        path[row][line]=2;
+    if (path[row][line+1]==0) {
      
+      push(ps,mix(row,line));
+      
+      line++;
+      path[row][line]=2;
+      
 
-   
-}
-else 
-{
+      
+    }
+    else 
+    {
 
 
-if (path[row+1][line]==0) {
+      if (path[row+1][line]==0) {
 
-    
-    
+        
+        
         push(ps,mix(row,line));
         
         row++;
         path[row][line]=2;
-    
-}
+        
+      }
 
-else
-{
+      else
+      {
 
-    if (path[row][line-1]==0) {
-        
-        push(ps,mix(row,line));
-        
-        
-        line--;
-        path[row][line]=2;
-        
-    }
-    else
+        if (path[row][line-1]==0) {
+          
+          push(ps,mix(row,line));
+          
+          
+          line--;
+          path[row][line]=2;
+          
+        }
+        else
 
-    {
-        if (path[row-1][line]==0) {
+        {
+          if (path[row-1][line]==0) {
             push(ps,mix(row,line));
             
             row--;
             path[row][line]=2;
-        }
-       else
-       {
-         if(row==1&&line==1)
-         {
-         return -1;
-         }
+          }
           else
           {
-          path[row][line]=3;
-           dv(pop(ps),&row,&line);
+           if(row==1&&line==1)
+           {
+             return -1;
+           }
+           else
+           {
+            path[row][line]=3;
+            dv(pop(ps),&row,&line);
           }
-           
-       }
-    
-    
-    
+          
+        }
+        
+        
+        
+      }
+
+
     }
 
 
-}
-
-
-}
- 
+  }
+  
 
 
 }
@@ -277,235 +277,235 @@ return 1;
 
 void pri_num()
 {
-    int row,line;
-    
-    for(row=0;row<N;row++)
+  int row,line;
+  
+  for(row=0;row<N;row++)
     {  printf("\n\t\t\t");
-        for(line=0;line<N;line++)
-        printf("%3d",path[row][line]);
-    
-    
-    }
+  for(line=0;line<N;line++)
+    printf("%3d",path[row][line]);
+  
+  
+}
  /*  delay(1200000000000);
     clrscr();
    */
 
-}
-void randmap()
-{
- 
-int row=0;
-int line=0;
-for(;row<N;row++)
-
-  for(line=0;line<N;line++)
+  }
+  void randmap()
   {
-    if(row==0||line==0||row==(N-1)||line==(N-1))
-    {
-    
-    path[row][line]=1;
+   
+    int row=0;
+    int line=0;
+    for(;row<N;row++)
+
+      for(line=0;line<N;line++)
+      {
+        if(row==0||line==0||row==(N-1)||line==(N-1))
+        {
+          
+          path[row][line]=1;
+
+        }
+        else
+        {
+          path[row][line]=rand_2(1,0);
+        }
+
+
+      }
+
+      path[1][1]=0;
+      path[N-2][N-2]=0;
 
     }
-    else
+    int rand_2(max,min)
     {
-        path[row][line]=rand_2(1,0);
+
+      return rand()%(max-min+1)+min;
+
+    }
+    int createmap(step *ps)
+    {
+      initstack(ps);
+      srand(time(NULL));
+      randmap();
+      while(move(ps)==-1)
+      {
+
+        randmap();
+        initstack(ps);
+
+
+      }
+      del_23();
+
+
+
+    }
+    void del_23()
+    {
+      int row=0;
+      int line;
+      for(;row<N;row++)
+        for(line=0;line<N;line++)
+        {
+          if(path[row][line]==2||path[row][line]==3)
+          {
+
+           path[row][line]=0;
+
+         }
+
+
+
+       }
+
+     }
+     void init(int color)
+     {
+      int drive,mode;
+      drive=DETECT;
+      registerbgidriver(EGAVGA_driver);
+      initgraph(&drive,&mode,"");
+      setbkcolor(color);
+
+
     }
 
 
+    void drawmap(int color)
+    {
+      int row=0;
+      int line;
+      int start_x=100;
+      int start_y=100;
+      cleardevice();
+      setfillstyle(SOLID_FILL,color);
+
+      for(row=0;row<N;row++)
+      {
+
+       start_x=LEN*row+100;
+       start_y=100;
+       for(line=0;line<N;line++)
+       {
+        start_y=LEN*line+100;
+        if(path[row][line]==1)
+        {
+
+          mybar(start_y,start_x);
+        }
+
+
+      }
+
+    }
+
+    setcolor(RED);
+
+    rectangle(100+(N-2)*LEN,100+(N-2)*LEN,100+(N-2)*LEN+LEN,100+(N-2)*LEN+LEN);
   }
-
-path[1][1]=0;
-path[N-2][N-2]=0;
-
-}
-int rand_2(max,min)
-{
-
-return rand()%(max-min+1)+min;
-
-}
-int createmap(step *ps)
-{
-  initstack(ps);
-srand(time(NULL));
-randmap();
-while(move(ps)==-1)
-{
-
-randmap();
-initstack(ps);
-
-
-}
-del_23();
-
-
-
-}
-void del_23()
-{
-int row=0;
-int line;
-for(;row<N;row++)
-  for(line=0;line<N;line++)
+  void mybar(int topx,int topy)
   {
-  if(path[row][line]==2||path[row][line]==3)
-   {
 
-   path[row][line]=0;
-
-   }
-
-
+    bar(topx,topy,topx+LEN,topy+LEN);
 
   }
-
-}
-void init(int color)
-{
-int drive,mode;
-drive=DETECT;
-registerbgidriver(EGAVGA_driver);
-initgraph(&drive,&mode,"");
-setbkcolor(color);
-
-
-}
-
-
-void drawmap(int color)
-{
-int row=0;
-int line;
-int start_x=100;
-int start_y=100;
-cleardevice();
-setfillstyle(SOLID_FILL,color);
-
-for(row=0;row<N;row++)
-{
-
- start_x=LEN*row+100;
- start_y=100;
-  for(line=0;line<N;line++)
+  void drawpeople(int row,int line,int color)
   {
-  start_y=LEN*line+100;
-   if(path[row][line]==1)
-   {
-
-  mybar(start_y,start_x);
-   }
-
-
-  }
-
- }
-
- setcolor(RED);
-
- rectangle(100+(N-2)*LEN,100+(N-2)*LEN,100+(N-2)*LEN+LEN,100+(N-2)*LEN+LEN);
-}
-void mybar(int topx,int topy)
-{
-
-bar(topx,topy,topx+LEN,topy+LEN);
-
-}
-void drawpeople(int row,int line,int color)
-{
-  int y=100+row*LEN+LEN/2;
-  int x=100+line*LEN+LEN/2;
+    int y=100+row*LEN+LEN/2;
+    int x=100+line*LEN+LEN/2;
 
  /* setfillstyle(SOLID_FILL,color);
   pieslice(x,y,0,360,(LEN/2-LEN/5));
    */
-   setcolor(color);
-   circle(x,y,(LEN/2-LEN/5));
+  setcolor(color);
+  circle(x,y,(LEN/2-LEN/5));
 
 }
 
 int computermove(int row,int line,step *ps)
 {
 
-initstack(ps);
+  initstack(ps);
 
 
-while (row!=(N-2)||line!=(N-2)) {
+  while (row!=(N-2)||line!=(N-2)) {
 
-if (path[row][line+1]==0) {
-   
+    if (path[row][line+1]==0) {
+     
+      push(ps,mix(row,line));
+      drawpeople(row,line,WHITE);
+      line++;
+      path[row][line]=2;
+      drawpeople(row,line,RED);
+
+      
+    }
+    else 
+    {
+
+
+      if (path[row+1][line]==0) {
+
+        
+        
         push(ps,mix(row,line));
-         drawpeople(row,line,WHITE);
-        line++;
-        path[row][line]=2;
-        drawpeople(row,line,RED);
-
-   
-}
-else 
-{
-
-
-if (path[row+1][line]==0) {
-
-    
-    
-        push(ps,mix(row,line));
-         drawpeople(row,line,WHITE);
+        drawpeople(row,line,WHITE);
         row++;
         path[row][line]=2;
-         drawpeople(row,line,RED);
-}
-
-else
-{
-
-    if (path[row][line-1]==0) {
-        
-        push(ps,mix(row,line));
-        
-          drawpeople(row,line,WHITE);
-        line--;
-        path[row][line]=2;
         drawpeople(row,line,RED);
-    }
-    else
+      }
 
-    {
-        if (path[row-1][line]==0) {
-            push(ps,mix(row,line));
+      else
+      {
+
+        if (path[row][line-1]==0) {
+          
+          push(ps,mix(row,line));
+          
           drawpeople(row,line,WHITE);
+          line--;
+          path[row][line]=2;
+          drawpeople(row,line,RED);
+        }
+        else
+
+        {
+          if (path[row-1][line]==0) {
+            push(ps,mix(row,line));
+            drawpeople(row,line,WHITE);
             row--;
             path[row][line]=2;
             drawpeople(row,line,RED);
-        }
-       else
-       {
-         if(row==1&&line==1)
-         {
-         return -1;
-         }
+          }
           else
           {
-          path[row][line]=3;
-          drawpeople(row,line,BROWN);
-           dv(pop(ps),&row,&line);
-           drawpeople(row,line,BROWN);
+           if(row==1&&line==1)
+           {
+             return -1;
+           }
+           else
+           {
+            path[row][line]=3;
+            drawpeople(row,line,BROWN);
+            dv(pop(ps),&row,&line);
+            drawpeople(row,line,BROWN);
           }
-           
-       }
-    
-    
-    
+          
+        }
+        
+        
+        
+      }
+
+
     }
 
 
-}
-
-
-}
- 
- sleep(1);
+  }
+  
+  sleep(1);
 
 }
 

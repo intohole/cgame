@@ -52,7 +52,7 @@ main()
         color.blue+=1;
         SetPalColor(1,&color); /*设置由color指定的新的颜色到1号寄存器内*/
         for(j=0;j<10;j++)     /*延时*/
-            delay(5000);
+        delay(5000);
     }
     SetPalColor(1,old_color);
     /*当圆内的颜色达到最亮时重新设回由old_color保存的蓝色*/

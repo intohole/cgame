@@ -20,7 +20,7 @@ for(times=0;times<TIMES;times++)
 {
 row=rand_3(4,2)-2;
 line=rand_3(4,2)-2;
-r_row=rand_3(4,2)-2;
+  r_row=rand_3(4,2)-2;
 r_line=rand_3(4,2)-2;
    if((row!=r_row)||(line!=r_line))
    {

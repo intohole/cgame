@@ -15,8 +15,8 @@
 #include "stdio.h"
 #include "conio.h"
 
-int del_ba(char str[])
-{
+        int del_ba(char str[])
+        {
 int i=0;          /*
 
 
@@ -28,25 +28,25 @@ int i=0;          /*
 int del;
 while(str[i]==' ')
 {
-   i++;
+ i++;
 
              /* Õâ¸öÊÇ ¼ÆËã Ê××Ö·ûÊÇ·ñÎª ¿Õ×Ö·û ÊýÁ¿  */
 }
 
 if(i==0)
 {
-return 1;
+  return 1;
 
 
 }
- for(del=0;del<=strlen(str)-i;del++)
- {
-     *(str+del)=*(str+del+i);
+for(del=0;del<=strlen(str)-i;del++)
+{
+ *(str+del)=*(str+del+i);
 
 
- }
+}
 
-  return 1;
+return 1;
 }
 
 void main()
@@ -60,18 +60,18 @@ void main()
 
 
 */
-  char *key_word[]={"char","main","int" ,"main","long","float","break",
-            "else","switch","case","enum","typedof","return","union","const",
-            "short","continue","for","signed","void","default","goto","sizeof",
-            "do","if","while","struct","staic"
-             };
+char *key_word[]={"char","main","int" ,"main","long","float","break",
+"else","switch","case","enum","typedof","return","union","const",
+"short","continue","for","signed","void","default","goto","sizeof",
+"do","if","while","struct","staic"
+};
 
- char *ope_word[]={"=","<=","<",">=",">","+","-","*","%","/",">>","<<","==","!=",
-   "&","^","|","&&","||","++","--","~"
-   };
-   char oper[5];
-   int s_line=0;
- char ch;
+char *ope_word[]={"=","<=","<",">=",">","+","-","*","%","/",">>","<<","==","!=",
+"&","^","|","&&","||","++","--","~"
+};
+char oper[5];
+int s_line=0;
+char ch;
  /*
  ¶ÁÈ¡ÎÄ¼þ×Ö·û±äÁ¿
    int gd,gm;
@@ -82,8 +82,8 @@ void main()
  int bc=0;/* É¾³ý¶àÓàµÄ¿Õ¸ñ */
  FILE *fp;/* ±£´æ¼´½«ÒªÒª´¦ÀíµÄÎÄ¼þÖ¸Õë */
  FILE *out;  /*  ±£´æµÚÒ»±é´¦ÀíÎÄ¼þ Ö÷Òª´¦ÀíÎª É¾³ý ¶àÓàµÄ ×Ö·û »Ø³µ ×¢ÊÍ ¶àÓà¿Õ¸ñ  */
-FILE   *var;
-FILE *ope;
+ FILE   *var;
+ FILE *ope;
  char o_file[100]; /*  Êý×éÔÚ ¶Ô ÎÄ¼þ É¾³ýÔ¤´¦Àí²¿·Ö Ê±ÓÃµ½
   */
 /*
@@ -91,7 +91,7 @@ FILE *ope;
 ±£´æ±äÁ¿ÎÄ¼þÖ¸Õë
 
 */
- FILE *sign;
+FILE *sign;
  /*
 
  ½ç·û¹Ø¼ü×Ö   ÎÄ¼þÖ¸Õë
@@ -119,9 +119,9 @@ FILE *ope;
  printf("Please input filename  and end of '/'  \n");
  while((ch=getch())!='/')
  {
- filename[s_row]=ch;
- printf("%c",filename[s_row]);
- s_row++;
+   filename[s_row]=ch;
+   printf("%c",filename[s_row]);
+   s_row++;
 
 
 
@@ -132,9 +132,9 @@ FILE *ope;
 
  if((fp=fopen(filename,"r"))==NULL)
  {
- printf("\n\n\n\n \t\t\t The fime name is wrong!");
+   printf("\n\n\n\n \t\t\t The fime name is wrong!");
 
- getch();
+   getch();
    exit(0);
 
 
@@ -142,11 +142,11 @@ FILE *ope;
 
  tmp=fopen("tmp.dat","w");
 
-while(!feof(fp))
-{
-fgets(o_file,100,fp);
-del_ba(o_file);
-if(o_file[0]=='#')
+ while(!feof(fp))
+ {
+  fgets(o_file,100,fp);
+  del_ba(o_file);
+  if(o_file[0]=='#')
 {                           /*
 del¡ª¡ªbaÕâ¸öÊÇÈ¥³ýÊý×éµÄÇ  Ç°Ãæ¿Õ¸ñµÄ
 Ö®ºó¿´Êý×éµÚÒ»¸ö×Ö·ûÊÇ·ñÎª #
@@ -161,7 +161,7 @@ continue;
 }
 else
 {
-fputs(o_file,tmp);
+  fputs(o_file,tmp);
 
 }
 
@@ -171,15 +171,15 @@ fclose(fp);
 fclose(tmp);
 out=fopen("saveda.dat","w");
 tmp=fopen("tmp.dat","r");
- while((ch=fgetc(tmp))!=EOF)
- {
+while((ch=fgetc(tmp))!=EOF)
+{
  if(ch=='/')
  {
    save=tmp;
-    if(fgetc(save)=='*')
+   if(fgetc(save)=='*')
+   {
+     while(fgetc(tmp)!='*'||fgetc(tmp)!='/')
      {
-       while(fgetc(tmp)!='*'||fgetc(tmp)!='/')
-          {
 
    /*
 
@@ -194,18 +194,18 @@ tmp=fopen("tmp.dat","r");
 
 */
 
- }
+}
 
-  ch=fgetc(tmp);
-
-
- }
+ch=fgetc(tmp);
 
 
- }
+}
 
- else if(ch=='\n')
- {
+
+}
+
+else if(ch=='\n')
+{
 
  fputc(' ',out);
 
@@ -224,39 +224,39 @@ tmp=fopen("tmp.dat","r");
          }
            */
 
- }
+       }
        else  if(ch==' ')
        {
-       fputc(ch,out);
-    while((ch=fgetc(tmp))==' ')
+         fputc(ch,out);
+         while((ch=fgetc(tmp))==' ')
+         {
+
+
+
+         }
+         fputc(ch,out);
+
+
+       }
+
+       else
        {
-
-
-
-       }
-        fputc(ch,out);
-
-
-       }
-
- else
-     {
      /* bc=0;
 
      */
-      fputc(ch,out);
+        fputc(ch,out);
 
-     }
+      }
 
 
- }
- remove("tmp.dat");
+    }
+    remove("tmp.dat");
  /*  É¾³ýÎÄ¼þ
  */
- fclose(tmp);
- fclose(out);
- out=fopen("saveda.dat","r");
- sign=fopen("sign.dat","w");
+    fclose(tmp);
+    fclose(out);
+    out=fopen("saveda.dat","r");
+    sign=fopen("sign.dat","w");
 
  /*
 
@@ -267,7 +267,7 @@ tmp=fopen("tmp.dat","r");
  var=fopen("var.dat","w");
  while((ch=fgetc(out))!=EOF)
  {
- if(ch==34)
+   if(ch==34)
     {      /*
 
     34 ¼´ ¡±µÄassicµÄÖµ
@@ -279,11 +279,11 @@ tmp=fopen("tmp.dat","r");
     */
     fprintf(sign,"< %c,->\t",ch);
 
-      while((ch=fgetc(out))!=34&&ch!=EOF)
-      {
+    while((ch=fgetc(out))!=34&&ch!=EOF)
+    {
 
 
-      }
+    }
     ;
       /*
 
@@ -298,16 +298,16 @@ tmp=fopen("tmp.dat","r");
     }
 
     if(ch=='\'')
-    { fprintf(sign,"<%c ,->         ",ch);
-     while((ch=fgetc(out))!='\''&&ch!=EOF)
-      {
-
-       }
-       fprintf(sign,"<%c ,->   ",ch);
+      { fprintf(sign,"<%c ,->         ",ch);
+    while((ch=fgetc(out))!='\''&&ch!=EOF)
+    {
 
     }
-    if(ch=='('||ch==')'||ch=='['||ch==']'||ch=='{'||ch=='}'||ch==';'||ch==',')
-               {
+    fprintf(sign,"<%c ,->   ",ch);
+
+  }
+  if(ch=='('||ch==')'||ch=='['||ch==']'||ch=='{'||ch=='}'||ch==';'||ch==',')
+  {
                  /*
                   fputc('<',sign);
                   fputc(ch,sign);
@@ -315,15 +315,15 @@ tmp=fopen("tmp.dat","r");
                   fputc('>',sign);
                    */
 
-                   fprintf(sign,"< %c,->   ",ch);
-                         }
+                  fprintf(sign,"< %c,->   ",ch);
+                }
 
 
 
 
- }
- fclose(sign);
-  rewind(out);
+              }
+              fclose(sign);
+              rewind(out);
  key=fopen("key.dat","w"); /*
 
  ´ò¿ª key¡£datÕâ¸öÎÄ¼þ Ö®ºóÎª¶ÁÐ´
@@ -342,33 +342,33 @@ tmp=fopen("tmp.dat","r");
  */
  while((ch=fgetc(out))!=EOF)
  {
- if(ch=='\"')
- {
+   if(ch=='\"')
+   {
 
- while((ch=fgetc(out))!=EOF&&ch!='\"')
- {
- str[s_row]=ch;
+     while((ch=fgetc(out))!=EOF&&ch!='\"')
+     {
+       str[s_row]=ch;
 
- s_row++;
- }
+       s_row++;
+     }
 
- str[s_row]='\0';
- fprintf(var,"<\"%s\",string>    ",str);
- s_row=0;
+     str[s_row]='\0';
+     fprintf(var,"<\"%s\",string>    ",str);
+     s_row=0;
 
- }
-  if(ch=='\'')
+   }
+   if(ch=='\'')
     {      s_row=0;
 
       while((ch=fgetc(out))!='\''&&ch!=EOF)
       {
-      str[s_row]=ch;
+        str[s_row]=ch;
 
 
-      s_row++;
+        s_row++;
       }
       str[s_row]='\0';
-       getch();
+      getch();
 
 
       fprintf(var,"<%s ,str_char>",str);
@@ -377,9 +377,9 @@ tmp=fopen("tmp.dat","r");
 
 
 
-        }
- if(ch=='='||ch=='>'||ch=='<'||ch=='+'||ch=='-'||ch=='*'||ch=='%'||ch=='/'||ch=='&'||ch=='|'||ch=='!'||ch=='~')
-   {oper[s_line]=ch;
+    }
+    if(ch=='='||ch=='>'||ch=='<'||ch=='+'||ch=='-'||ch=='*'||ch=='%'||ch=='/'||ch=='&'||ch=='|'||ch=='!'||ch=='~')
+     {oper[s_line]=ch;
 
    /*while(((ch=fgetc(out))!=EOF)|(ch=='='||ch=='>'||ch=='<'||ch=='+'||ch=='-'||ch=='*'||ch=='%'||ch=='/'||ch=='&'||ch=='|'||ch=='!'||ch=='~'))
          {       printf("%c",ch);
@@ -390,7 +390,7 @@ tmp=fopen("tmp.dat","r");
          }
      */
 
-     save=out;
+         save=out;
      ch=fgetc(out);  /*
 
      Õâ¸öÊÇÔ¤ÏÈ´¦Àí·¢ÏÖ·ûºÅºóÔò ¿´ÏÂ¸ö·ûºÅÊÇÊ²Ã´
@@ -402,59 +402,59 @@ tmp=fopen("tmp.dat","r");
 
      */
      if(ch=='='||ch=='>'||ch=='<'||ch=='+'||ch=='-'||ch=='*'||ch=='%'||ch=='/'||ch=='&'||ch=='|'||ch=='!'||ch=='~')
-        {
-        oper[++s_line]=ch;
+     {
+      oper[++s_line]=ch;
 
-        }
-        else
-        {
+    }
+    else
+    {
 
-         fseek(out,-1,SEEK_CUR);
+     fseek(out,-1,SEEK_CUR);
 
-        }
-         oper[++s_line]='\0';
+   }
+   oper[++s_line]='\0';
 
-         for(s_line=0;s_line<28;s_line++)
-         {
+   for(s_line=0;s_line<28;s_line++)
+   {
 
-         if(strcmp(oper,ope_word[s_line])==0)
-         {
+     if(strcmp(oper,ope_word[s_line])==0)
+     {
 
-         fprintf(ope,"<%s,ope>   ",oper);
+       fprintf(ope,"<%s,ope>   ",oper);
 
-         }
+     }
 
-         }
-         s_line=0;
+   }
+   s_line=0;
 
-         if(strcmp(oper,"=")==0)
-         {
+   if(strcmp(oper,"=")==0)
+   {
 
-         while((ch=fgetc(out))!=EOF&&(ch!=';'&&ch!='('))
-         {
-           o_file[s_line]=ch;
-            s_line++;
-         }
-          o_file[s_line]='\0';
+     while((ch=fgetc(out))!=EOF&&(ch!=';'&&ch!='('))
+     {
+       o_file[s_line]=ch;
+       s_line++;
+     }
+     o_file[s_line]='\0';
 
-         fseek(out,-1,SEEK_CUR);
-         s_line=0;
-         if(ch=='(')
-         {
-            fprintf(var,"<%s,var>    ",o_file);
+     fseek(out,-1,SEEK_CUR);
+     s_line=0;
+     if(ch=='(')
+     {
+      fprintf(var,"<%s,var>    ",o_file);
 
 
-         }
-         else
-         {
+    }
+    else
+    {
 
-         fprintf(var,"<%s,string>    ",o_file);
-         }
-         }
+     fprintf(var,"<%s,string>    ",o_file);
+   }
+ }
 
-  }
+}
 
- if((ch>='A'&&ch<='Z')||(ch>='a'&&ch<='z'))
+if((ch>='A'&&ch<='Z')||(ch>='a'&&ch<='z'))
 {
 
 str[s_row]=ch;          /*
@@ -463,45 +463,45 @@ str[s_row]=ch;          /*
 
 */
 while((ch=fgetc(out))!=EOF&&((ch>='A'&&ch<='Z')||(ch>='a'&&ch<='z')||ch=='_'||(ch>='0'&&ch<='9')))
-    {
-    s_row++;
-    str[s_row]=ch;
+{
+  s_row++;
+  str[s_row]=ch;
 
-    }
-    fseek(out,-1,SEEK_CUR);
-     str[s_row+1]='\0';
-    for(s_row=0;s_row<27;s_row++)
-    {
+}
+fseek(out,-1,SEEK_CUR);
+str[s_row+1]='\0';
+for(s_row=0;s_row<27;s_row++)
+{
 
-    if(strcmp(str,key_word[s_row])==0)
-     {fprintf(key,"<%s,->    ",str);
+  if(strcmp(str,key_word[s_row])==0)
+   {fprintf(key,"<%s,->    ",str);
        iskey=0;            /*
 
        iskey ÊÇ¸ö±êÖ¾Î» Èç¹ûÊÇ ¹Ø¼ü×Ö
        Ôò ÖÃ0
        ±íÊ¾ÕâÊÇ¸ö¹Ø¼ü×ÖÒÑ´¦Àí
        */
-          break;
+       break;
      }
 
 
-    }
-    if(iskey)
+   }
+   if(iskey)
     fprintf(var,"<%s,var>    ",str);
-    iskey=1;
-    s_row=0;
+  iskey=1;
+  s_row=0;
 
 
 }
 
- }
-  fclose(key);
- fclose(ope);
- fclose(fp);
- fclose(out);
- fclose(var);
- textcolor(BLUE);
-  textbackground(WHITE);
+}
+fclose(key);
+fclose(ope);
+fclose(fp);
+fclose(out);
+fclose(var);
+textcolor(BLUE);
+textbackground(WHITE);
   /*
 
   Õâ¸ö text textcolor
@@ -510,25 +510,25 @@ while((ch=fgetc(out))!=EOF&&((ch>='A'&&ch<='Z')||(ch>='a'&&ch<='z')||ch=='_'||(c
 
 
   */
- while(1)
- { printf("\n\n\t\tpress any key!!go on!\n");
+  while(1)
+   { printf("\n\n\t\tpress any key!!go on!\n");
  getch();
  clrscr();
 
-   printf("\nWrok is over ,please choese a choice for youself\n");
-   printf("1   the key  word\n");
-   printf("2   the sign word\n");
-   printf("3   the var  word\n");
-   printf("4   the ope  word\n");
-   printf("q   exit widow!   \n");
+ printf("\nWrok is over ,please choese a choice for youself\n");
+ printf("1   the key  word\n");
+ printf("2   the sign word\n");
+ printf("3   the var  word\n");
+ printf("4   the ope  word\n");
+ printf("q   exit widow!   \n");
 
  ch=getch();
-   printf("\n \t \tYour choice   :%c \n\n\t\t\tplease press Enter",ch);
-   getch();
+ printf("\n \t \tYour choice   :%c \n\n\t\t\tplease press Enter",ch);
+ getch();
 
 
 
-   switch(ch)
+ switch(ch)
    {                         /*
 
 
@@ -539,9 +539,9 @@ while((ch=fgetc(out))!=EOF&&((ch>='A'&&ch<='Z')||(ch>='a'&&ch<='z')||ch=='_'||(c
    */
    case 'q':exit(0);break;
    case '1':clrscr();
-                printf("the key word  :\n");
-                  out=fopen("key.dat","r");
-               while(!feof(out))
+   printf("the key word  :\n");
+   out=fopen("key.dat","r");
+   while(!feof(out))
                {  fgets(o_file,100,out);  /*
 
 
@@ -550,39 +550,39 @@ while((ch=fgetc(out))!=EOF&&((ch>='A'&&ch<='Z')||(ch>='a'&&ch<='z')||ch=='_'||(c
                */
                printf("%s",o_file);
 
-               }
-               fclose(out);break;
-   case '2':clrscr();
-                 printf("the sign word  :\n");
-                    out=fopen("sign.dat","r");
-                while(!feof(out))
+             }
+             fclose(out);break;
+             case '2':clrscr();
+             printf("the sign word  :\n");
+             out=fopen("sign.dat","r");
+             while(!feof(out))
                {  fgets(o_file,100,out);
-               printf("%s",o_file);
+                 printf("%s",o_file);
 
                }
                fclose(out); break;
-   case '3':clrscr();printf("the var word  :\n");out=fopen("var.dat","r");
-                while(!feof(out))
-               {  fgets(o_file,100,out);
-               printf("%s",o_file);
+               case '3':clrscr();printf("the var word  :\n");out=fopen("var.dat","r");
+               while(!feof(out))
+                 {  fgets(o_file,100,out);
+                   printf("%s",o_file);
+
+                 }
+                 fclose(out);break;
+                 case '4':clrscr();printf("the operator word  :\n");out=fopen("oper.dat","r");
+                 while(!feof(out))
+                   {  fgets(o_file,100,out);
+                     printf("%s",o_file);
+
+                   }
+                   fclose(out);break;
+                   default :break;
+                 }
+
+
+
 
                }
-               fclose(out);break;
-   case '4':clrscr();printf("the operator word  :\n");out=fopen("oper.dat","r");
-                while(!feof(out))
-               {  fgets(o_file,100,out);
-               printf("%s",o_file);
-
-               }
-               fclose(out);break;
-               default :break;
-   }
+               getch();
 
 
-
-
- }
- getch();
-
-
-}
+             }

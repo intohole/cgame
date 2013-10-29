@@ -16,29 +16,29 @@
 typedef struct GUN
 {
 int gun_r;/* 子弹的 坐标 */
-struct GUN *next;
-struct GUN *last;
+  struct GUN *next;
+  struct GUN *last;
 }gun;
 
 void insertgun(gun *head,int gunrow,int num[])
 {
-    gun *tmp;
-    gun *newgun;
-    tmp=head;
+  gun *tmp;
+  gun *newgun;
+  tmp=head;
 
-    while(tmp->next!=NULL)
-    {
+  while(tmp->next!=NULL)
+  {
 
     tmp=tmp->next;
 
 
-    }
-    newgun=(gun *)malloc(sizeof(struct GUN));
-    tmp->next=newgun;
-    newgun->next=NULL;
-    newgun->last=tmp;
-    newgun->gun_r=gunrow;
-    *(num+gunrow)=2;
+  }
+  newgun=(gun *)malloc(sizeof(struct GUN));
+  tmp->next=newgun;
+  newgun->next=NULL;
+  newgun->last=tmp;
+  newgun->gun_r=gunrow;
+  *(num+gunrow)=2;
 }
 void create(gun *head)
 {
@@ -49,37 +49,37 @@ void create(gun *head)
 }
 void delte(gun *head,int delrow)
 {
-gun *tmp;
-tmp=head->next;
-while(tmp!=NULL)
-{
-if(tmp->gun_r==delrow)
+  gun *tmp;
+  tmp=head->next;
+  while(tmp!=NULL)
   {
+    if(tmp->gun_r==delrow)
+    {
   /*
   找到 删除的
   */
   if(tmp->next==NULL)
   {
-  tmp->last->next=NULL;
+    tmp->last->next=NULL;
 
 
   }
   else
   {
-  tmp->last->next=tmp->next;
-  tmp->next->last=tmp->last;
+    tmp->last->next=tmp->next;
+    tmp->next->last=tmp->last;
 
   }
 
-    break;
-  }
-  else
-  {
+  break;
+}
+else
+{
  tmp=tmp->next;
-  }
+}
 }
 
-   free(tmp);
+free(tmp);
 }
 void gun_move(gun *head,int num[],int n)
 {
@@ -88,56 +88,56 @@ void gun_move(gun *head,int num[],int n)
  tmp=head->next;
  /* 指向上一个删除的指针  */
  while(tmp!=NULL)
+ {
+
+  if((tmp->gun_r-n)<0)
   {
 
-      if((tmp->gun_r-n)<0)
-      {
 
+   if(tmp->next==NULL)
+   {
+     tmp->last->next=NULL;
 
-           if(tmp->next==NULL)
-           {
-           tmp->last->next=NULL;
+   }
+   else
+   {
+     tmp->last->next=tmp->next;
+     tmp->next->last=tmp->last;
 
-           }
-           else
-           {
-           tmp->last->next=tmp->next;
-           tmp->next->last=tmp->last;
+   }
+   *(num+tmp->gun_r-n)=0;
+   *(num+tmp->gun_r)=0;
 
-            }
-            *(num+tmp->gun_r-n)=0;
-            *(num+tmp->gun_r)=0;
-
-      }
-      else
-      {
+ }
+ else
+ {
 
 
 
-      if(*(num+tmp->gun_r-n)==1)
-      {
-      *(num+tmp->gun_r)=0;
-      *(num+tmp->gun_r-n)=0;
-      tmp->last->next=tmp->next;
+  if(*(num+tmp->gun_r-n)==1)
+  {
+    *(num+tmp->gun_r)=0;
+    *(num+tmp->gun_r-n)=0;
+    tmp->last->next=tmp->next;
 
-
-      }
-      else
-      {
-
-       *(num+tmp->gun_r)=0;
-
-       *(num+tmp->gun_r-n)=2;
-       tmp->gun_r=tmp->gun_r-n;
-
-      }
-
-      }
-
-
-      tmp=tmp->next;
 
   }
+  else
+  {
+
+   *(num+tmp->gun_r)=0;
+
+   *(num+tmp->gun_r-n)=2;
+   tmp->gun_r=tmp->gun_r-n;
+
+ }
+
+}
+
+
+tmp=tmp->next;
+
+}
 
 
 
@@ -147,90 +147,90 @@ void gun_move(gun *head,int num[],int n)
 
 void init(int num[],int n)
 {
-   int row=0;
-   for(;row<n*n;row++)
-  {
-    *(num+row)=0;
-   }
+ int row=0;
+ for(;row<n*n;row++)
+ {
+  *(num+row)=0;
+}
 
 }
 int getnum(int num[],int n)
 {
 
-num=(int *)malloc(sizeof(int)*(n*n));
-if(num==NULL)
-{
+  num=(int *)malloc(sizeof(int)*(n*n));
+  if(num==NULL)
+  {
     return 0;
 
-}
-else
-{
+  }
+  else
+  {
 
-return 1;
-}
+    return 1;
+  }
 
 }
 int rand_3(int max,int min)
 {
-return rand()%(max-min+1)+min;
+  return rand()%(max-min+1)+min;
 
 }
 int cg_fir(int num[],int n)
 {
-   int row=0;
-   int time_1=0;
-while(time_1<=rand_3((n/3-1),1))
-  {
-    row=rand_3(n,0);
-    if(*(num+row)!=1)
-    {
-    *(num+row)=1;
-    time_1++;
-   }
-
-
-  }
-  for(row=0;row<n;row++)
-  {
+ int row=0;
+ int time_1=0;
+ while(time_1<=rand_3((n/3-1),1))
+ {
+  row=rand_3(n,0);
   if(*(num+row)!=1)
   {
-     *(num+row)=0;
-
-         }
+    *(num+row)=1;
+    time_1++;
   }
+
+
+}
+for(row=0;row<n;row++)
+{
+  if(*(num+row)!=1)
+  {
+   *(num+row)=0;
+
+ }
+}
 
 }
 void move_(int num[],int n,int m_row,gun *head)
 {
-int row=0,time_1=0;
+  int row=0,time_1=0;
 
 
 
- for(row=(n*n-1);row>=0;row--)
-   {
+  for(row=(n*n-1);row>=0;row--)
+  {
 
    if(*(num+row)==2&&*(num+row-n)==1)
    {
-          *(num+row)=0;
-          *(num+row-n)=0;
-          delte(head,row);
-   }
-   else if(*(num+row)==4&&*(num+row-n)==1)
-     {
+    *(num+row)=0;
+    *(num+row-n)=0;
+    delte(head,row);
+  }
+  else if(*(num+row)==4&&*(num+row-n)==1)
+  {
 
-         printf("\n\n\t\tYou Are Lost!!!");
-          getch();
-          exit(1);
-     }
-     else if(*(num+row)==2||*(num+row)==4)
-     {
+   printf("\n\n\t\tYou Are Lost!!!");
+   getch();
+   exit(1);
+ }
+ else if(*(num+row)==2||*(num+row)==4)
+ {
 
-     }
-     else
-    {
-    *(num+row)=*(num+row-n);
+ }
+ else
+ {
+  *(num+row)=*(num+row-n);
 
-     }
+}
    /*
 
    if(row!=m_row)
@@ -275,59 +275,59 @@ int row=0,time_1=0;
 
      }
      */
-     }
- cg_fir(num,n);
-}
-void pri_num(int num[],int n)
-{
-
-int row=0;
- textcolor(15);
- printf("\t\t");
- for(row=1;row<=n;row++)
-
+   }
+   cg_fir(num,n);
+ }
+ void pri_num(int num[],int n)
  {
- printf("%6c",' ');
+
+  int row=0;
+  textcolor(15);
+  printf("\t\t");
+  for(row=1;row<=n;row++)
+
+  {
+   printf("%6c",' ');
 
  }
-for(row=0;row<n*n;row++)
-  {
+ for(row=0;row<n*n;row++)
+ {
   if(row%n==0)
-     {
-     printf("\n\n  \t\t");
+  {
+   printf("\n\n  \t\t");
 
-     }
-     if(*(num+row)==0)
-     {
+ }
+ if(*(num+row)==0)
+ {
   printf("%5c",' ');
 
-      }
-      else if(*(num+row)==1)
-      {
-      printf("%5c",'$');
+}
+else if(*(num+row)==1)
+{
+  printf("%5c",'$');
 
 
-      }
-      else if(*(num+row)==2)
-      {
-      printf("%5c",'.');
+}
+else if(*(num+row)==2)
+{
+  printf("%5c",'.');
 
 
-      }
-      else  if(*(num+row)==4)
-      {
+}
+else  if(*(num+row)==4)
+{
 
-      printf("%5c",'o');
+  printf("%5c",'o');
 
 
-      }
-      else
-      {
+}
+else
+{
 
-      printf("%5c",' ');
+  printf("%5c",' ');
 
-      }
-  }
+}
+}
 
 }
 void pe_judge()
@@ -341,23 +341,23 @@ if(*(num+*row)!=1)
                 }
                 else
                 { */
-                clrscr();
+                  clrscr();
                 printf("\n\n\n\t\t\tYOU ARE LOST!");
-                   getch();
-                   exit(1);
+                getch();
+                exit(1);
 
                /* }*/
 
-}
-int pe_move(int key,int *row,int *num,int n,gun *head)
-{
-int save=*row;
-  switch(key)
-  {
-  case ESC:clrscr();
-              printf("\n\n\n\n\t\t\tGOOD BYE!BROTHER!");
-           getch();
-           exit(0);
+              }
+              int pe_move(int key,int *row,int *num,int n,gun *head)
+              {
+                int save=*row;
+                switch(key)
+                {
+                  case ESC:clrscr();
+                  printf("\n\n\n\n\t\t\tGOOD BYE!BROTHER!");
+                  getch();
+                  exit(0);
 
 /* case UP:if((*row-n)>(n-1))
                   {
@@ -375,98 +375,98 @@ int save=*row;
                             }
                             break;
   */
-               case BS:insertgun(head,*row-n,num);break;
-                 case DOWN:if((*row+n)<n*n)
-                  {
+                            case BS:insertgun(head,*row-n,num);break;
+                            case DOWN:if((*row+n)<n*n)
+                            {
 
-                  if(*(num+*row+n)!=1)
-                 {
-                 *(num+*row)=0;
-                 *row=*row+n;
-                 *(num+*row)=4;
-                 }
-                 else
-                 {
-                    pe_judge();
+                              if(*(num+*row+n)!=1)
+                              {
+                               *(num+*row)=0;
+                               *row=*row+n;
+                               *(num+*row)=4;
+                             }
+                             else
+                             {
+                              pe_judge();
 
-                  }
                             }
-                            break;
-                 case LEFT:if((*row-1)>=((*row/n)*n))
-                       {if(*(num+*row-1)!=1)
-                 {
-                 *(num+*row)=0;
-                 *row=*row-1;
-                 *(num+*row)=4;
-                 }
-                 else
-                 {
-                    pe_judge();
+                          }
+                          break;
+                          case LEFT:if((*row-1)>=((*row/n)*n))
+                          {if(*(num+*row-1)!=1)
+                           {
+                             *(num+*row)=0;
+                             *row=*row-1;
+                             *(num+*row)=4;
+                           }
+                           else
+                           {
+                            pe_judge();
 
-                  }
-                                }
-                                 break;
-            case RIGHT:if((*row+1)<=((*row/n+1)*n-1))
-                       {
+                          }
+                        }
+                        break;
+                        case RIGHT:if((*row+1)<=((*row/n+1)*n-1))
+                        {
                          if(*(num+*row+1)!=1)
-                 {
-                 *(num+*row)=0;
-                 *row=*row+1;
-                 *(num+*row)=4;
-                 }
-                 else
-                 {
-                    pe_judge();
+                         {
+                           *(num+*row)=0;
+                           *row=*row+1;
+                           *(num+*row)=4;
+                         }
+                         else
+                         {
+                          pe_judge();
+
+                        }
+                      }
+                      break;
+
+                      default :break;
+
+                    }
+
+
+
+
+                  }
+                  void main()
+                  {
+                    int *sp;
+                    int sign=0;
+                    int ti=0;
+                    int key;
+                    int n=9;
+                    int m_row=n*(n-1)+n/2;
+gun *head;/*  枪  子弹的 头指针  */
+                    srand(time(NULL));
+                    sign=getnum(sp,n);
+
+                    init(sp,n);
+                    *(sp+m_row)=4;
+                    create(head);
+                    while(1)
+                    {
+                      while(!kbhit())
+                      {
+                        ti=0;
+                        clrscr();
+                        gun_move(head,sp,n);
+                        move_(sp,n,m_row,head);
+
+                        pri_num(sp,n);
+
+                        while(ti<15)
+                        {
+                          delay(80000);
+                          ti++;
+                        }
+
+
+
+                      }
+                      key=bioskey(0);
+                      pe_move(key,&m_row,sp,n,head);
+                    }
 
                   }
-                                 }
-                                 break;
-
-                                 default :break;
-
-               }
-
-
-
-
-}
-void main()
-{
-int *sp;
-int sign=0;
-int ti=0;
-int key;
-int n=9;
-int m_row=n*(n-1)+n/2;
-gun *head;/*  枪  子弹的 头指针  */
-srand(time(NULL));
-  sign=getnum(sp,n);
-
-  init(sp,n);
-  *(sp+m_row)=4;
-  create(head);
-  while(1)
-  {
-    while(!kbhit())
-    {
-    ti=0;
-    clrscr();
-    gun_move(head,sp,n);
-    move_(sp,n,m_row,head);
-
-    pri_num(sp,n);
-
-    while(ti<15)
-             {
-                      delay(80000);
-                  ti++;
-             }
-
-
-
-    }
-    key=bioskey(0);
-    pe_move(key,&m_row,sp,n,head);
-  }
-
-}
