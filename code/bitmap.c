@@ -11,6 +11,7 @@ typedef struct BIT_MAP
     int size;
     long MAX_VALUE;
 }BITMAP , *PBMAP;
+const int BYTE_ARRY[] = {1<<0,1<<2,1<<3,1<<4,1<<5,1<<6,1<<7};
 
 void * get_char_buffer(int size);
 int * getbyte(char * buffer , const int buffer_size, const int size);
@@ -19,7 +20,9 @@ PBMAP createBitMap(const int size);
 bool setBitMap(PBMAP bitMap , const int num);
 bool setbuffer(void * buffer ,const int buffersize, const char num);
 int *getByteMap(PBMAP bitMap , const int size);
-const int BYTE_ARRY[] = {1<<0,1<<2,1<<3,1<<4,1<<5,1<<6,1<<7};
+PBMAP addBitMap(PBMAP bitMap1, PBMAP bitMap2);
+int existNum(PBMAP bitMap , int num);
+
 
 
 
@@ -36,8 +39,12 @@ int main(void)
     setBitMap(bitmap , 5);
     setBitMap(bitmap , 1001);
     setBitMap(bitmap , 1234);
+    setBitMap(bitmap , 9000);
     setBitMap(bitmap, 1024);
-    int * arry  = getByteMap(bitmap, 9 );
+    printf("%d\n" , existNum(bitmap , 90000));
+    printf("%d\n" , existNum(bitmap , 1234));
+    printf("%d\n" , existNum(bitmap , 8));
+    int * arry  = getByteMap(bitmap, 10);
     for(int i = 0 ; i < 9 ; i++)
     {
         printf("%d \n" , *(arry+i));
@@ -160,5 +167,15 @@ bool setbuffer(void * buffer ,const int buffersize, const char num)
         return true;
     }
     return false;
+}
 
+
+int existNum(PBMAP bitMap , int num)
+{
+    if(bitMap!= NULL && bitMap->MAX_VALUE >= num)
+    {
+        return (bitMap->buffer[num / BYTE_WIDTH] & BYTE_ARRY[num % BYTE_WIDTH])> 0 ? 1 : 0 ;
+
+    }
+    return -1;
 }
