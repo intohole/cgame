@@ -2,7 +2,8 @@
 #include<stdlib.h>
 
 const int BUFFER_SIZE = 1000 ;
-const int MAX_VALUE = BUFFER_SIZE * 8;
+const unsigned int  u_size = 0x7FFFFFFF / 8;
+const int MAX_VALUE = u_size * 8;
 const int BYTE_WIDTH = 8;
 
 typedef struct BIT_MAP
@@ -11,7 +12,7 @@ typedef struct BIT_MAP
     int size;
     long MAX_VALUE;
 }BITMAP , *PBMAP;
-const int BYTE_ARRY[] = {1<<0,1<<2,1<<3,1<<4,1<<5,1<<6,1<<7};
+const char BYTE_ARRY[] = {1<<0,1<<2,1<<3,1<<4,1<<5,1<<6,1<<7};
 
 void * get_char_buffer(int size);
 int * getbyte(char * buffer , const int buffer_size, const int size);
@@ -19,9 +20,20 @@ void setbyte(char * buffer , const unsigned int num);
 PBMAP createBitMap(const int size);
 bool setBitMap(PBMAP bitMap , const unsigned int num);
 bool setbuffer(void * buffer ,const  int buffersize, const char num);
-int *getByteMap(PBMAP bitMap , const unsignedint size);
+int *getByteMap(PBMAP bitMap , const unsigned int size);
 PBMAP addBitMap(PBMAP bitMap1, PBMAP bitMap2);
-int existNum(PBMAP bitMap , int num);
+int existNum(PBMAP bitMap ,unsigned int num);
+int add(PBMAP bitMap ,  char *str);
+bool existString(PBMAP bitMap ,  char * str);
+unsigned int SDBMHash( char *str);
+unsigned int RSHash( char *str);
+unsigned int JSHash( char *str);
+unsigned int PJWHash( char *str);
+unsigned int ELFHash( char *str);
+unsigned int BKDRHash( char *str);
+unsigned int DJBHash( char *str);
+unsigned int APHash( char *str);
+
 
 
 
@@ -31,23 +43,14 @@ int existNum(PBMAP bitMap , int num);
 
 int main(void)
 {
-    PBMAP bitmap = createBitMap(1000);
-    setBitMap(bitmap , 7);
-    setBitMap(bitmap,  2);
-    setBitMap(bitmap , 101);
-    setBitMap(bitmap , 1);
-    setBitMap(bitmap , 5);
-    setBitMap(bitmap , 1001);
-    setBitMap(bitmap , 1234);
-    setBitMap(bitmap , 9000);
-    setBitMap(bitmap, 1024);
-    printf("%d\n" , existNum(bitmap , 90000));
-    printf("%d\n" , existNum(bitmap , 1234));
-    printf("%d\n" , existNum(bitmap , 8));
-    int * arry  = getByteMap(bitmap, 10);
-    for(int i = 0 ; i < 9 ; i++)
+    PBMAP bitmap = createBitMap(u_size);
+    printf("%d\n" ,add(bitmap , "ssssss"));
+    printf("%d\n" ,add(bitmap , "aaa"));
+    printf("%d\n" ,add(bitmap , "sdfsd"));
+    printf("%d\n" ,add(bitmap , "sdfs"));
+    if(existString(bitmap , "sdfsd"))
     {
-        printf("%d \n" , *(arry+i));
+        printf("find\n");
     }
     return 0;
 }
@@ -70,18 +73,18 @@ PBMAP createBitMap(const int size)
 }
 
 
-bool setBitMap(PBMAP bitMap ,const int num)
+bool setBitMap(PBMAP bitMap ,const unsigned int num)
 {
     if(bitMap != NULL && (*bitMap).MAX_VALUE >= num)
     {
-        bitMap->buffer[num / 8] = bitMap->buffer[num / 8] +  BYTE_ARRY[num % 8];
+        bitMap->buffer[num / 8] |= BYTE_ARRY[num % 8];
         return true;
     }
     return false;
 }
 
 
-int *getByteMap(PBMAP bitMap , const int size)
+int *getByteMap(PBMAP bitMap , const unsigned int size)
 {
 
     int * arry = (int *)get_char_buffer(size * 4);
@@ -179,29 +182,29 @@ int existNum(PBMAP bitMap , unsigned int num)
     return -1;
 }
 
-unsigned int SDBMHash(char *str)
+unsigned int SDBMHash( char *str)
 {
     unsigned int hash = 0;
-
-    while (*str)
+    char *tmp = str ;
+    while (*tmp)
     {
         // equivalent to: hash = 65599*hash + (*str++);
-        hash = (*str++) + (hash << 6) + (hash << 16) - hash;
+        hash = (*tmp++) + (hash << 6) + (hash << 16) - hash;
     }
 
     return (hash & 0x7FFFFFFF);
 }
 
 // RS Hash Function
-unsigned int RSHash(char *str)
+unsigned int RSHash( char *str)
 {
     unsigned int b = 378551;
     unsigned int a = 63689;
     unsigned int hash = 0;
-
-    while (*str)
+    char *tmp = str ;
+    while (*tmp)
     {
-        hash = hash * a + (*str++);
+        hash = hash * a + (*tmp++);
         a *= b;
     }
 
@@ -209,21 +212,22 @@ unsigned int RSHash(char *str)
 }
 
 // JS Hash Function
-unsigned int JSHash(char *str)
+unsigned int JSHash( char *str)
 {
     unsigned int hash = 1315423911;
-
-    while (*str)
+    char *tmp = str;
+    while (*tmp)
     {
-        hash ^= ((hash << 5) + (*str++) + (hash >> 2));
+        hash ^= ((hash << 5) + (*tmp++) + (hash >> 2));
     }
 
     return (hash & 0x7FFFFFFF);
 }
 
 // P. J. Weinberger Hash Function
-unsigned int PJWHash(char *str)
+unsigned int PJWHash( char *str)
 {
+    char *tmp = str;
     unsigned int BitsInUnignedInt = (unsigned int)(sizeof(unsigned int) * 8);
     unsigned int ThreeQuarters    = (unsigned int)((BitsInUnignedInt  * 3) / 4);
     unsigned int OneEighth        = (unsigned int)(BitsInUnignedInt / 8);
@@ -231,9 +235,9 @@ unsigned int PJWHash(char *str)
     unsigned int hash             = 0;
     unsigned int test             = 0;
 
-    while (*str)
+    while (*tmp)
     {
-        hash = (hash << OneEighth) + (*str++);
+        hash = (hash << OneEighth) + (*tmp++);
         if ((test = hash & HighBits) != 0)
         {
             hash = ((hash ^ (test >> ThreeQuarters)) & (~HighBits));
@@ -244,14 +248,14 @@ unsigned int PJWHash(char *str)
 }
 
 // ELF Hash Function
-unsigned int ELFHash(char *str)
+unsigned int ELFHash( char *str)
 {
     unsigned int hash = 0;
     unsigned int x    = 0;
-
-    while (*str)
+    char *tmp = str;
+    while (*tmp)
     {
-        hash = (hash << 4) + (*str++);
+        hash = (hash << 4) + (*tmp++);
         if ((x = hash & 0xF0000000L) != 0)
         {
             hash ^= (x >> 24);
@@ -263,48 +267,91 @@ unsigned int ELFHash(char *str)
 }
 
 // BKDR Hash Function
-unsigned int BKDRHash(char *str)
+unsigned int BKDRHash( char *str)
 {
     unsigned int seed = 131; // 31 131 1313 13131 131313 etc..
     unsigned int hash = 0;
-
-    while (*str)
+    char *tmp = str ;
+    while (*tmp)
     {
-        hash = hash * seed + (*str++);
+        hash = hash * seed + (*tmp++);
     }
 
     return (hash & 0x7FFFFFFF);
 }
 
 // DJB Hash Function
-unsigned int DJBHash(char *str)
+unsigned int DJBHash( char *str)
 {
     unsigned int hash = 5381;
-
-    while (*str)
+    char *tmp = str;
+    while (*tmp)
     {
-        hash += (hash << 5) + (*str++);
+        hash += (hash << 5) + (*tmp++);
     }
 
     return (hash & 0x7FFFFFFF);
 }
 
 // AP Hash Function
-unsigned int APHash(char *str)
+unsigned int APHash( char *str)
 {
     unsigned int hash = 0;
     int i;
-
-    for (i=0; *str; i++)
+    char *tmp = str;
+    for (i=0; *tmp; i++)
     {
         if ((i & 1) == 0)
         {
-            hash ^= ((hash << 7) ^ (*str++) ^ (hash >> 3));
+            hash ^= ((hash << 7) ^ (*tmp++) ^ (hash >> 3));
         }
         else
         {
-            hash ^= (~((hash << 11) ^ (*str++) ^ (hash >> 5)));
+            hash ^= (~((hash << 11) ^ (*tmp++) ^ (hash >> 5)));
         }
     }
     return (hash & 0x7FFFFFFF);
+}
+
+
+
+int  add(PBMAP bitMap , char *str)
+{
+    if(str == NULL || *str == '\0' )
+    {
+        return -1;
+    }
+    if(setBitMap(bitMap ,SDBMHash(str))&&
+    setBitMap(bitMap , RSHash(str))&&
+    setBitMap(bitMap , JSHash(str))&&
+    setBitMap(bitMap , PJWHash(str))&&
+    setBitMap(bitMap , ELFHash(str))&&
+    setBitMap(bitMap , BKDRHash(str))&&
+    setBitMap(bitMap , DJBHash(str))&&
+    setBitMap(bitMap , APHash(str)))
+    {
+        return 0;
+    }
+    return -2;
+}
+
+
+
+
+
+bool existString(PBMAP bitMap ,  char * str)
+{
+    if(str == NULL || *str == '\0')
+    {
+        return false;
+    }
+    return existNum(bitMap ,SDBMHash(str)) == 1&&
+    existNum(bitMap ,SDBMHash(str)) == 1&&
+    existNum(bitMap , RSHash(str)) == 1&&
+    existNum(bitMap , JSHash(str)) == 1&&
+    existNum(bitMap , PJWHash(str)) == 1&&
+    existNum(bitMap , ELFHash(str)) == 1&&
+    existNum(bitMap , BKDRHash(str)) == 1&&
+    existNum(bitMap , DJBHash(str)) == 1&&
+    existNum(bitMap , APHash(str)) == 1;
 }
