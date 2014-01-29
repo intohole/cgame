@@ -12,19 +12,24 @@ typedef struct BIT_MAP
     int size;
     long MAX_VALUE;
 }BITMAP , *PBMAP;
-const char BYTE_ARRY[] = {1<<0,1<<2,1<<3,1<<4,1<<5,1<<6,1<<7};
+//
+const char BYTE_ARRY[] = {1<<0,1<<1,1<<2,1<<3,1<<4,1<<5,1<<6,1<<7};
 
+//创建 一个buffer
 void * get_char_buffer(int size);
+/**
+得到 
+*/
 int * getbyte(char * buffer , const int buffer_size, const int size);
 void setbyte(char * buffer , const unsigned int num);
-PBMAP createBitMap(const int size);
+PBMAP createBitMap(const int size); //创建bitmap
 bool setBitMap(PBMAP bitMap , const unsigned int num);
 bool setbuffer(void * buffer ,const  int buffersize, const char num);
 int *getByteMap(PBMAP bitMap , const unsigned int size);
 PBMAP addBitMap(PBMAP bitMap1, PBMAP bitMap2);
-int existNum(PBMAP bitMap ,unsigned int num);
-int add(PBMAP bitMap ,  char *str);
-bool existString(PBMAP bitMap ,  char * str);
+int existNum(PBMAP bitMap ,unsigned int num); //查看bitmap是否存在数字
+int add(PBMAP bitMap ,  char *str);//添加字符串
+bool existString(PBMAP bitMap ,  char * str); //查看bitmap是否有字符串
 unsigned int SDBMHash( char *str);
 unsigned int RSHash( char *str);
 unsigned int JSHash( char *str);
@@ -44,14 +49,39 @@ unsigned int APHash( char *str);
 int main(void)
 {
     PBMAP bitmap = createBitMap(u_size);
+    printf("=====%d" , sizeof(char));
+    if(bitmap == NULL)
+    {
+        exit(-1);
+    }
+    printf("%d\n" , 446370894 % 8 );
     printf("%d\n" ,add(bitmap , "ssssss"));
     printf("%d\n" ,add(bitmap , "aaa"));
     printf("%d\n" ,add(bitmap , "sdfsd"));
     printf("%d\n" ,add(bitmap , "sdfs"));
+    printf("\n\n");
+    if(existString(bitmap , "aaa"))
+    {
+        printf("find\n");
+    }
+    if(existString(bitmap , "ssssss"))
+    {
+        printf("find\n");
+    }
+    if(existString(bitmap , "aaa"))
+    {
+        printf("find\n");
+    }
     if(existString(bitmap , "sdfsd"))
     {
         printf("find\n");
     }
+    if (!existString(bitmap , "no find"))
+    {
+        printf("not find\n");
+    }
+
+
     return 0;
 }
 
@@ -77,7 +107,7 @@ bool setBitMap(PBMAP bitMap ,const unsigned int num)
 {
     if(bitMap != NULL && (*bitMap).MAX_VALUE >= num)
     {
-        bitMap->buffer[num / 8] |= BYTE_ARRY[num % 8];
+        *(bitMap->buffer + num / 8 ) |= BYTE_ARRY[num % 8];
         return true;
     }
     return false;
@@ -345,13 +375,12 @@ bool existString(PBMAP bitMap ,  char * str)
     {
         return false;
     }
-    return existNum(bitMap ,SDBMHash(str)) == 1&&
-    existNum(bitMap ,SDBMHash(str)) == 1&&
-    existNum(bitMap , RSHash(str)) == 1&&
-    existNum(bitMap , JSHash(str)) == 1&&
-    existNum(bitMap , PJWHash(str)) == 1&&
-    existNum(bitMap , ELFHash(str)) == 1&&
-    existNum(bitMap , BKDRHash(str)) == 1&&
-    existNum(bitMap , DJBHash(str)) == 1&&
+    return existNum(bitMap ,SDBMHash(str)) == 1 &&
+    existNum(bitMap , RSHash(str)) == 1 &&
+    existNum(bitMap , JSHash(str)) == 1 &&
+    existNum(bitMap , PJWHash(str)) == 1 &&
+    existNum(bitMap , ELFHash(str)) == 1 &&
+    existNum(bitMap , BKDRHash(str)) == 1 &&
+    existNum(bitMap , DJBHash(str)) == 1 &&
     existNum(bitMap , APHash(str)) == 1;
 }
